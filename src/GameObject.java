@@ -27,3 +27,5 @@ public class GameObject {
 		//g.fillRect(x, y, width, height);
 	        }
 }
+
+//IDEA FOR WHAT TO DO FOR GAME: Guy in middle, enemies coming form all sides, change direction of firing based on mouse, enemies move towards middle, base game is the same.
