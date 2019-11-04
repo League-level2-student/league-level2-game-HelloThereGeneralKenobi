@@ -1,57 +1,51 @@
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.util.ArrayList;
-import java.util.Random;
 
-import javax.swing.JFrame;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
-public class level2Game extends JPanel implements ActionListener, KeyListener{
-	JFrame frame = new JFrame();
+public class GamePanel extends JPanel implements ActionListener, KeyListener{
 	
-	Timer t = new Timer(1000 / 60, this);
-	
+	Timer timer;
 	final int MENU_STATE = 0;
 	final int GAME_STATE = 1;
 	final int END_STATE = 2;
 	int currentState = MENU_STATE;
 	Font titleFont;
 	Font subTitleFont;
+	Rocketship ship;
+	ObjectManager object;
 	
-	public static void main(String[] args) {
-		new level2Game().start();
+	GamePanel() {
+		
+	timer = new Timer(1000/60, this);
+	titleFont = new Font("wingdings",Font.BOLD,48);
+	subTitleFont = new Font("wingdings",Font.PLAIN,20);
+	ship = new Rocketship(250,700,50,50);
+	object = new ObjectManager(ship);
 	}
 	
-	public void start(){
-		setPreferredSize(new Dimension(500, 800));
-		frame.add(this);
-		frame.setVisible(true);
-		frame.pack();
-		frame.addKeyListener(this);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		
-		titleFont = new Font("Times New Roman",Font.BOLD,48);
-		subTitleFont = new Font("Arial",Font.PLAIN,20);
-		
-		t.start();
+	void startGame () {
+		timer.start();
 	}
-
-	int x = 0;
 	
 	void updateMenuState() {
 		
 	}
 	
 	void updateGameState() {
-
+		object.update();
+		object.manageEnemies();
+		object.checkCollision();
+		object.purgeObjects();
+		if(ship.isAlive == false) {
+			currentState = END_STATE;
+		}
 	}
 	
 	void updateEndState() {
@@ -59,31 +53,34 @@ public class level2Game extends JPanel implements ActionListener, KeyListener{
 	}
 	
 	void drawMenuState(Graphics g) {
-		g.setColor(Color.BLACK);
-		g.fillRect(0, 0, 500, 800);
+		g.setColor(Color.BLUE);
+		g.fillRect(0, 0, LeagueInvaders.width, LeagueInvaders.height);
 		g.setFont(titleFont);
-		g.setColor(Color.LIGHT_GRAY);
-		g.drawString("Title", 200, 200);
+		g.setColor(Color.YELLOW);
+		g.drawString("LEAGUE INVADERS", 15, 200);
 		g.setFont(subTitleFont);
-		g.drawString("Press ENTER to start", 140, 350);
-		g.drawString("Press SPACE for instructions", 110, 500);
+		g.drawString("Press ENTER to start", 75, 350);
+		g.drawString("Press SPACE for instructions", 15, 500);
 	}
 	
 	void drawGameState(Graphics g) {
 		g.setColor(Color.BLACK);
-		g.fillRect(0, 0, 500, 800);
+		g.fillRect(0, 0, LeagueInvaders.width, LeagueInvaders.height);
+		object.draw(g);
 	}
 	
 	void drawEndState(Graphics g) {
 		g.setColor(Color.RED);
-		g.fillRect(0, 0, 500, 800);
+		g.fillRect(0, 0, LeagueInvaders.width, LeagueInvaders.height);
 		g.setColor(Color.BLACK);
 		g.setFont(titleFont);
-		g.drawString("You Lost >:(", 90, 300);
+		g.drawString("YOU DIED", 90, 300);
 		g.setFont(subTitleFont);
-		//g.drawString(object.getScore() + "", 90, 400);
+		g.drawString(object.getScore() + " Enemies killed", 90, 400);
 	}
 	
+	@Override
+
 	public void paintComponent(Graphics g){
 		if(currentState == MENU_STATE){
 
@@ -117,38 +114,58 @@ public class level2Game extends JPanel implements ActionListener, KeyListener{
             updateEndState();
 
     }
-
+		
 	}
 
 	@Override
 	public void keyTyped(KeyEvent e) {
 		// TODO Auto-generated method stub
-		
+		System.out.println("keyTyped");
 	}
 
 	@Override
 	public void keyPressed(KeyEvent e) {
 		// TODO Auto-generated method stub
+		System.out.println("keyPressed");
 		if(10 == e.getKeyCode()) {
 			currentState++;
 			if(currentState > END_STATE) {
 				currentState = MENU_STATE;
 			}
 		}
-		if(e.getKeyCode() == KeyEvent.VK_ESCAPE){
-			t.stop();
-			System.exit(0);
-		}
-		if(e.getKeyCode() == KeyEvent.VK_SPACE){
-			JOptionPane.showMessageDialog(null, "try to win");
-		}
 		
+		if(e.getKeyCode() == 37) {
+			ship.left = true;
+		}
+		if(e.getKeyCode() == 38) {
+			ship.up = true;
+		}
+		if(e.getKeyCode() == 39) {
+			ship.right = true;
+		}
+		if(e.getKeyCode() == 40) {
+			ship.down = true;
+		}
+		if(e.getKeyCode() == 32) {
+			ObjectManager.addProjectile(new Projectile(ship.x + 20, ship.y, 10, 10));
+		}
 	}
 
 	@Override
 	public void keyReleased(KeyEvent e) {
 		// TODO Auto-generated method stub
-		
+		System.out.println("keyEvent");
+		if(e.getKeyCode() == 37) {
+			ship.left = false;
+		}
+		if(e.getKeyCode() == 38) {
+			ship.up = false;
+		}
+		if(e.getKeyCode() == 39) {
+			ship.right = false;
+		}
+		if(e.getKeyCode() == 40) {
+			ship.down = false;
+		}
 	}
 }
-
