@@ -1,15 +1,15 @@
 import java.awt.Color;
 import java.awt.Graphics;
 
-public class Alien extends GameObject {
+public class AlienBottom extends GameObject {
 
-	Alien(int x, int y, int width, int height) {
+	AlienBottom(int x, int y, int width, int height) {
 		super(x, y, width, height);
 	}
 	
 	void update() {
 		super.update();
-		y++;
+		y--;
 	}
 
 	void draw(Graphics g) {

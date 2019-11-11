@@ -6,7 +6,10 @@ public class ObjectManager {
 
 	Rocketship rocket;
 	static ArrayList<Projectile> projectiles = new ArrayList<Projectile>();
-	ArrayList<Alien> aliens = new ArrayList<Alien>();
+	ArrayList<AlienTop> aliensTop = new ArrayList<AlienTop>();
+	ArrayList<AlienBottom> aliensBottom = new ArrayList<AlienBottom>();
+	ArrayList<AlienLeft> aliensLeft = new ArrayList<AlienLeft>();
+	ArrayList<AlienRight> aliensRight = new ArrayList<AlienRight>();
 	long enemyTimer = 0;
 	int enemySpawnTime = 1000;
 	int score;
@@ -21,10 +24,19 @@ public class ObjectManager {
 		for (int i = 0; i < projectiles.size(); i++) {
 			projectiles.get(i).update();
 		}
-		for (int i = 0; i < aliens.size(); i++) {
-			aliens.get(i).update();
+		for (int i = 0; i < aliensTop.size(); i++) {
+			aliensTop.get(i).update();
 		}
-		enemySpawnTime = 1000 - (score*score)/3;
+		for (int i = 0; i < aliensBottom.size(); i++) {
+			aliensBottom.get(i).update();
+		}
+		for (int i = 0; i < aliensLeft.size(); i++) {
+			aliensLeft.get(i).update();
+		}
+		for (int i = 0; i < aliensRight.size(); i++) {
+			aliensRight.get(i).update();
+		}
+		enemySpawnTime = 2000;
 	}
 
 	void draw(Graphics g) {
@@ -32,8 +44,17 @@ public class ObjectManager {
 		for (int i = 0; i < projectiles.size(); i++) {
 			projectiles.get(i).draw(g);
 		}
-		for (int i = 0; i < aliens.size(); i++) {
-			aliens.get(i).draw(g);
+		for (int i = 0; i < aliensTop.size(); i++) {
+			aliensTop.get(i).draw(g);
+		}
+		for (int i = 0; i < aliensBottom.size(); i++) {
+			aliensBottom.get(i).draw(g);
+		}
+		for (int i = 0; i < aliensLeft.size(); i++) {
+			aliensLeft.get(i).draw(g);
+		}
+		for (int i = 0; i < aliensRight.size(); i++) {
+			aliensRight.get(i).draw(g);
 		}
 	}
 
@@ -41,8 +62,17 @@ public class ObjectManager {
 		projectiles.add(projectile);
 	}
 
-	void addAlien(Alien alien) {
-		aliens.add(alien);
+	void addAlien(AlienTop alien) {
+		aliensTop.add(alien);
+	}
+	void addAlien(AlienBottom alien) {
+		aliensBottom.add(alien);
+	}
+	void addAlien(AlienLeft alien) {
+		aliensLeft.add(alien);
+	}
+	void addAlien(AlienRight alien) {
+		aliensRight.add(alien);
 	}
 
 	void purgeObjects() {
@@ -51,33 +81,95 @@ public class ObjectManager {
 				projectiles.remove(i);
 			}
 		}
-		for (int i = (aliens.size() - 1); i >= 0; i--) {
-			if (aliens.get(i).isAlive == false) {
-				aliens.remove(i);
+		for (int i = (aliensTop.size() - 1); i >= 0; i--) {
+			if (aliensTop.get(i).isAlive == false) {
+				aliensTop.remove(i);
+			}
+		}
+		for (int i = (aliensBottom.size() - 1); i >= 0; i--) {
+			if (aliensBottom.get(i).isAlive == false) {
+				aliensBottom.remove(i);
+			}
+		}
+		for (int i = (aliensLeft.size() - 1); i >= 0; i--) {
+			if (aliensLeft.get(i).isAlive == false) {
+				aliensLeft.remove(i);
+			}
+		}
+		for (int i = (aliensRight.size() - 1); i >= 0; i--) {
+			if (aliensRight.get(i).isAlive == false) {
+				aliensRight.remove(i);
 			}
 		}
 	}
 
 	public void manageEnemies() {
 		if (System.currentTimeMillis() - enemyTimer >= enemySpawnTime) {
-			addAlien(new Alien(new Random().nextInt(LeagueInvaders.width), 0, 50, 50));
-
+			addAlien(new AlienTop(new Random().nextInt(LeagueInvaders.width), 0, 50, 50));
+			addAlien(new AlienBottom(new Random().nextInt(LeagueInvaders.width),(LeagueInvaders.height), 50, 50));
+			addAlien(new AlienLeft(0, new Random().nextInt(LeagueInvaders.height), 50, 50));
+			addAlien(new AlienRight((LeagueInvaders.width), new Random().nextInt(LeagueInvaders.height), 50, 50));
 			enemyTimer = System.currentTimeMillis();
 		}
 	}
 
 	void checkCollision() {
-		for (Alien a : aliens) {
+		for (AlienTop a : aliensTop) {
 			if (rocket.collisionBox.intersects(a.collisionBox)) {
 				rocket.isAlive = false;
 			}
 
 		}
 		for (int i = 0; i < projectiles.size(); i++) {
-			for (int k = 0; k < aliens.size(); k++) {
-				if (projectiles.get(i).collisionBox.intersects(aliens.get(k).collisionBox)) {
+			for (int k = 0; k < aliensTop.size(); k++) {
+				if (projectiles.get(i).collisionBox.intersects(aliensTop.get(k).collisionBox)) {
 					projectiles.get(i).isAlive = false;
-					aliens.get(k).isAlive = false;
+					aliensTop.get(k).isAlive = false;
+					score++;
+				}
+			}
+		}
+		for (AlienBottom a : aliensBottom) {
+			if (rocket.collisionBox.intersects(a.collisionBox)) {
+				rocket.isAlive = false;
+			}
+
+		}
+		for (int i = 0; i < projectiles.size(); i++) {
+			for (int k = 0; k < aliensBottom.size(); k++) {
+				if (projectiles.get(i).collisionBox.intersects(aliensBottom.get(k).collisionBox)) {
+					projectiles.get(i).isAlive = false;
+					aliensBottom.get(k).isAlive = false;
+					score++;
+				}
+			}
+		}
+		for (AlienLeft a : aliensLeft) {
+			if (rocket.collisionBox.intersects(a.collisionBox)) {
+				rocket.isAlive = false;
+			}
+
+		}
+		for (int i = 0; i < projectiles.size(); i++) {
+			for (int k = 0; k < aliensLeft.size(); k++) {
+				if (projectiles.get(i).collisionBox.intersects(aliensLeft.get(k).collisionBox)) {
+					projectiles.get(i).isAlive = false;
+					aliensLeft.get(k).isAlive = false;
+					score++;
+				}
+			}
+		}
+		for (AlienRight a : aliensRight) {
+			if (rocket.collisionBox.intersects(a.collisionBox)) {
+				rocket.isAlive = false;
+			}
+
+		}
+		for (int i = 0; i < projectiles.size(); i++) {
+			for (int k = 0; k < aliensRight.size(); k++) {
+				if (projectiles.get(i).collisionBox.intersects(aliensRight.get(k).collisionBox)) {
+					projectiles.get(i).isAlive = false;
+					aliensRight.get(k).isAlive = false;
 					score++;
 				}
 			}

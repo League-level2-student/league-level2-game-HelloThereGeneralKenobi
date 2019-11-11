@@ -28,4 +28,4 @@ public class GameObject {
 	        }
 }
 
-//IDEA FOR WHAT TO DO FOR GAME: Guy in middle, enemies coming form all sides, change direction of firing based on mouse, enemies move towards middle, base game is the same.
+//IDEA FOR WHAT TO DO FOR GAME: Guy in middle, enemies coming form all sides, change direction of firing based on arrow keys, enemies move towards middle, base game is the same.
