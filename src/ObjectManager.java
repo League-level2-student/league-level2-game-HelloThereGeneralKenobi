@@ -13,10 +13,14 @@ public class ObjectManager {
 	long enemyTimer = 0;
 	int enemySpawnTime = 1000;
 	int score;
+	int border;
+	
+	
 
 	ObjectManager(Rocketship rocket) {
 		this.rocket = rocket;
 		score = 0;
+		border = 0;
 	}
 
 	void update() {
@@ -36,7 +40,22 @@ public class ObjectManager {
 		for (int i = 0; i < aliensRight.size(); i++) {
 			aliensRight.get(i).update();
 		}
-		enemySpawnTime = 2000;
+		if(rocket.y == 50 && border == 0) {
+			System.out.println("Top");
+			border++;
+			score++;
+		}
+		if(rocket.y == 750 && border == 1) {
+			System.out.println("Bottom");
+			border--;
+			score++;
+		}
+		if(score <= 20) {
+			enemySpawnTime = 4000 - (100 * score);
+		}
+		else {
+			enemySpawnTime = 2000;
+		}
 	}
 
 	void draw(Graphics g) {
@@ -125,7 +144,6 @@ public class ObjectManager {
 				if (projectiles.get(i).collisionBox.intersects(aliensTop.get(k).collisionBox)) {
 					projectiles.get(i).isAlive = false;
 					aliensTop.get(k).isAlive = false;
-					score++;
 				}
 			}
 		}
@@ -140,7 +158,6 @@ public class ObjectManager {
 				if (projectiles.get(i).collisionBox.intersects(aliensBottom.get(k).collisionBox)) {
 					projectiles.get(i).isAlive = false;
 					aliensBottom.get(k).isAlive = false;
-					score++;
 				}
 			}
 		}
@@ -155,7 +172,6 @@ public class ObjectManager {
 				if (projectiles.get(i).collisionBox.intersects(aliensLeft.get(k).collisionBox)) {
 					projectiles.get(i).isAlive = false;
 					aliensLeft.get(k).isAlive = false;
-					score++;
 				}
 			}
 		}
@@ -170,7 +186,6 @@ public class ObjectManager {
 				if (projectiles.get(i).collisionBox.intersects(aliensRight.get(k).collisionBox)) {
 					projectiles.get(i).isAlive = false;
 					aliensRight.get(k).isAlive = false;
-					score++;
 				}
 			}
 		}
