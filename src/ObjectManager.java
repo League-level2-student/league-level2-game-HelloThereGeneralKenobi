@@ -1,8 +1,12 @@
 import java.awt.Graphics;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Random;
 
-public class ObjectManager {
+import javax.swing.Timer;
+
+public class ObjectManager implements ActionListener {
 
 	Rocketship rocket;
 	static ArrayList<Projectile> projectiles = new ArrayList<Projectile>();
@@ -14,6 +18,8 @@ public class ObjectManager {
 	int enemySpawnTime = 1000;
 	int score;
 	int border;
+	Timer timer;
+	int seconds;
 	
 	
 
@@ -21,6 +27,9 @@ public class ObjectManager {
 		this.rocket = rocket;
 		score = 0;
 		border = 0;
+		timer = new Timer(1000,this);
+		timer.start();
+		seconds = 0;
 	}
 
 	void update() {
@@ -50,11 +59,11 @@ public class ObjectManager {
 			border--;
 			score++;
 		}
-		if(score <= 20) {
-			enemySpawnTime = 4000 - (100 * score);
+		if(score <= 15) {
+			enemySpawnTime = 3000 - (100 * score);
 		}
 		else {
-			enemySpawnTime = 2000;
+			enemySpawnTime = 1500;
 		}
 	}
 
@@ -193,5 +202,12 @@ public class ObjectManager {
 	
 	int getScore() {
 		return score;
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		// TODO Auto-generated method stub
+		seconds++;
+		
 	}
 }

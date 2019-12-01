@@ -24,8 +24,8 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener{
 	GamePanel() {
 		
 	timer = new Timer(1000/60, this);
-	titleFont = new Font("wingdings",Font.BOLD,48);
-	subTitleFont = new Font("wingdings",Font.PLAIN,20);
+	titleFont = new Font("helvetica",Font.BOLD,46);
+	subTitleFont = new Font("helvetica",Font.PLAIN,24);
 	ship = new Rocketship(250,700,50,50);
 	object = new ObjectManager(ship);
 	}
@@ -57,10 +57,15 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener{
 		g.fillRect(0, 0, LeagueInvaders.width, LeagueInvaders.height);
 		g.setFont(titleFont);
 		g.setColor(Color.YELLOW);
-		g.drawString("LEAGUE INVADERS", 15, 200);
+		g.drawString("HOUR OF RUSH:", 25, 150);
+		g.drawString("THE RUSH HOUR", 25, 200);
 		g.setFont(subTitleFont);
-		g.drawString("Press ENTER to start", 75, 350);
-		g.drawString("Press SPACE for instructions", 15, 500);
+		g.drawString("Press ENTER to start", 130, 350);
+		g.drawString("Try to complete as many waves as possible", 25, 500);
+		g.drawString("and do that while lasting as long as possible", 25, 535);
+		g.drawString("you complete a wave by reaching the top of", 25, 570);
+		g.drawString("the screen and making it back down to the", 25, 605);
+		g.drawString("bottom. Just don't crash 4head", 25, 640);
 	}
 	
 	void drawGameState(Graphics g) {
@@ -74,9 +79,9 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener{
 		g.fillRect(0, 0, LeagueInvaders.width, LeagueInvaders.height);
 		g.setColor(Color.BLACK);
 		g.setFont(titleFont);
-		g.drawString("YOU DIED", 90, 300);
+		g.drawString("YOU CRASHED, IDIOT", 1, 300);
 		g.setFont(subTitleFont);
-		g.drawString(object.getScore() + " Enemies killed", 90, 400);
+		g.drawString("Completed " + object.getScore() + " waves and lasted " +  object.seconds + " seconds", 20, 400);
 	}
 	
 	@Override
@@ -93,6 +98,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener{
 	    }else if(currentState == END_STATE){
 
             drawEndState(g);
+            timer.stop();
 
     }
 	        }
