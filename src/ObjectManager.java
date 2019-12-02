@@ -1,9 +1,11 @@
+import java.applet.AudioClip;
 import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Random;
 
+import javax.swing.JApplet;
 import javax.swing.Timer;
 
 public class ObjectManager implements ActionListener {
@@ -20,6 +22,7 @@ public class ObjectManager implements ActionListener {
 	int border;
 	Timer timer;
 	int seconds;
+	AudioClip bing;
 	
 	
 
@@ -30,6 +33,7 @@ public class ObjectManager implements ActionListener {
 		timer = new Timer(1000,this);
 		timer.start();
 		seconds = 0;
+		bing = loadSound("woohoo.wav");
 	}
 
 	void update() {
@@ -53,11 +57,15 @@ public class ObjectManager implements ActionListener {
 			System.out.println("Top");
 			border++;
 			score++;
+			bing.play();
+			//draw line on other side
 		}
 		if(rocket.y == 750 && border == 1) {
 			System.out.println("Bottom");
 			border--;
 			score++;
+			bing.play();
+			//draw line on other side
 		}
 		if(score <= 15) {
 			enemySpawnTime = 3000 - (100 * score);
@@ -202,6 +210,10 @@ public class ObjectManager implements ActionListener {
 	
 	int getScore() {
 		return score;
+	}
+	
+	public AudioClip loadSound(String fileName) {
+		return JApplet.newAudioClip(getClass().getResource(fileName));
 	}
 
 	@Override
