@@ -5,12 +5,12 @@ import java.awt.event.ActionListener;
 
 import javax.swing.Timer;
 
-public class AlienTop extends GameObject implements ActionListener {
-
+public class TruckBottom extends GameObject implements ActionListener {
+	
 	Timer timer;
 	boolean activeHitBox;
-	
-	AlienTop(int x, int y, int width, int height) {
+
+	TruckBottom(int x, int y, int width, int height) {
 		super(x, y, width, height);
 		timer = new Timer(1000,this);
 		timer.start();
@@ -22,7 +22,7 @@ public class AlienTop extends GameObject implements ActionListener {
 		if(activeHitBox == true) {
 			super.update();
 		}
-		y++;
+		y--;
 	}
 
 	void draw(Graphics g) {

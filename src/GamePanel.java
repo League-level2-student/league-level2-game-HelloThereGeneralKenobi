@@ -18,7 +18,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener{
 	int currentState = MENU_STATE;
 	Font titleFont;
 	Font subTitleFont;
-	Rocketship ship;
+	Player ship;
 	ObjectManager object;
 	
 	GamePanel() {
@@ -26,7 +26,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener{
 	timer = new Timer(1000/60, this);
 	titleFont = new Font("helvetica",Font.BOLD,46);
 	subTitleFont = new Font("helvetica",Font.PLAIN,24);
-	ship = new Rocketship(250,700,50,50);
+	ship = new Player(250,700,50,50);
 	object = new ObjectManager(ship);
 	}
 	
@@ -53,10 +53,10 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener{
 	}
 	
 	void drawMenuState(Graphics g) {
-		g.setColor(Color.BLUE);
-		g.fillRect(0, 0, LeagueInvaders.width, LeagueInvaders.height);
+		g.setColor(Color.DARK_GRAY);
+		g.fillRect(0, 0, CarGame.width, CarGame.height);
 		g.setFont(titleFont);
-		g.setColor(Color.YELLOW);
+		g.setColor(Color.LIGHT_GRAY);
 		g.drawString("HOUR OF RUSH:", 25, 150);
 		g.drawString("THE RUSH HOUR", 25, 200);
 		g.setFont(subTitleFont);
@@ -70,7 +70,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener{
 	
 	void drawGameState(Graphics g) {
 		g.setColor(Color.BLACK);
-		g.fillRect(0, 0, LeagueInvaders.width, LeagueInvaders.height);
+		g.fillRect(0, 0, CarGame.width, CarGame.height);
 		object.draw(g);
 		//g.setColor(Color.WHITE);
 		//g.fillRect(0, 40, 600, 5);
@@ -79,7 +79,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener{
 	
 	void drawEndState(Graphics g) {
 		g.setColor(Color.RED);
-		g.fillRect(0, 0, LeagueInvaders.width, LeagueInvaders.height);
+		g.fillRect(0, 0, CarGame.width, CarGame.height);
 		g.setColor(Color.BLACK);
 		g.setFont(titleFont);
 		g.drawString("YOU CRASHED, IDIOT", 1, 300);
@@ -155,10 +155,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener{
 		if(e.getKeyCode() == 40) {
 			ship.down = true;
 		}
-		if(e.getKeyCode() == 32) {
-			ObjectManager.addProjectile(new Projectile(ship.x + 20, ship.y, 10, 10));
 		}
-	}
 
 	@Override
 	public void keyReleased(KeyEvent e) {

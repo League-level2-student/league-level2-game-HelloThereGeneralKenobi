@@ -5,12 +5,12 @@ import java.awt.event.ActionListener;
 
 import javax.swing.Timer;
 
-public class AlienLeft extends GameObject implements ActionListener {
+public class TruckLeft extends GameObject implements ActionListener {
 
 	Timer timer;
 	boolean activeHitBox;
 	
-	AlienLeft(int x, int y, int width, int height) {
+	TruckLeft(int x, int y, int width, int height) {
 		super(x, y, width, height);
 		timer = new Timer(1000,this);
 		timer.start();

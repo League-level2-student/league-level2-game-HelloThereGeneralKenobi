@@ -4,7 +4,7 @@ import java.awt.Dimension;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-public class LeagueInvaders {
+public class CarGame {
 	
 	JFrame frame;
 	final static int width = 500;
@@ -13,7 +13,7 @@ public class LeagueInvaders {
 	
 	public static void main(String[] args) {
 		
-		LeagueInvaders object = new LeagueInvaders();
+		CarGame object = new CarGame();
 		object.setup();
 	}
 		void setup() {
