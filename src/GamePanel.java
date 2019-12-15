@@ -53,19 +53,18 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener{
 	}
 	
 	void drawMenuState(Graphics g) {
-		g.setColor(Color.DARK_GRAY);
+		g.setColor(Color.LIGHT_GRAY);
 		g.fillRect(0, 0, CarGame.width, CarGame.height);
 		g.setFont(titleFont);
-		g.setColor(Color.LIGHT_GRAY);
-		g.drawString("HOUR OF RUSH:", 25, 150);
-		g.drawString("THE RUSH HOUR", 25, 200);
+		g.setColor(Color.DARK_GRAY);
+		g.drawString("SUPAAA FROGGER", 25, 150);
 		g.setFont(subTitleFont);
 		g.drawString("Press ENTER to start", 130, 350);
 		g.drawString("Try to complete as many waves as possible", 25, 500);
 		g.drawString("and do that while lasting as long as possible", 25, 535);
 		g.drawString("you complete a wave by reaching the top of", 25, 570);
 		g.drawString("the screen and making it back down to the", 25, 605);
-		g.drawString("bottom. Just don't crash 4head", 25, 640);
+		g.drawString("bottom. Just don't die 4head", 25, 640);
 	}
 	
 	void drawGameState(Graphics g) {
@@ -82,7 +81,8 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener{
 		g.fillRect(0, 0, CarGame.width, CarGame.height);
 		g.setColor(Color.BLACK);
 		g.setFont(titleFont);
-		g.drawString("YOU CRASHED, IDIOT", 1, 300);
+		g.drawString("YOU GOT RUN OVER,", 5, 300);
+		g.drawString("IDIOT", 200, 350);
 		g.setFont(subTitleFont);
 		g.drawString("Completed " + object.getScore() + " waves and lasted " +  object.seconds + " seconds", 20, 400);
 	}
